@@ -20,14 +20,14 @@ export default function UploadPhoto({navigation}) {
         <View>
           <Button
             title="Continue"
-            onPress={() => navigation.navigate('MainApp')}
+            onPress={() => navigation.replace('MainApp')}
           />
           <Gap height={40} />
           <Link
             title="Skip for this"
             align="center"
             size={16}
-            onPress={() => navigation.navigate('MainApp')}
+            onPress={() => navigation.replace('MainApp')}
           />
         </View>
       </View>
