@@ -1,9 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {TabItem} from '../../Atom';
+import {colors} from '../../../utils';
 
 const BottomNavigator = ({state, descriptors, navigation}) => {
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={styles.container}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
         const label =
@@ -35,21 +37,27 @@ const BottomNavigator = ({state, descriptors, navigation}) => {
         };
 
         return (
-          <TouchableOpacity
-            accessibilityRole="button"
-            accessibilityStates={isFocused ? ['selected'] : []}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
+          <TabItem
+            key={index}
+            title={label}
+            active={isFocused}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{flex: 1}}>
-            <Text style={{color: isFocused ? '#673ab7' : '#222'}}>{label}</Text>
-          </TouchableOpacity>
+          />
         );
       })}
     </View>
   );
 };
+
 export default BottomNavigator;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 53,
+    backgroundColor: colors.secondary,
+  },
+});
