@@ -18,8 +18,7 @@ const Tab = createBottomTabNavigator();
 
 const MainApp = () => {
   return (
-    <Tab.Navigator
-    tabBar={props => <BottomNavigator {...props} />}>
+    <Tab.Navigator tabBar={(props) => <BottomNavigator {...props} />}>
       <Tab.Screen name="Doctor" component={Home} />
       <Tab.Screen name="Message" component={Message} />
       <Tab.Screen name="Hospitals" component={Hospitals} />
@@ -29,7 +28,7 @@ const MainApp = () => {
 
 const Router = () => {
   return (
-    <Stack.Navigator initialRouteName="MainApp">
+    <Stack.Navigator initialRouteName="Splash">
       <Stack.Screen
         name="Splash"
         component={Splash}

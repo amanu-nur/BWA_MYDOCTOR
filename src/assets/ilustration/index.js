@@ -5,6 +5,7 @@ import ILDocUmum from './Doc_umum.svg';
 import ILDocAnak from './Doc_anak.svg';
 import ILDocObat from './Doc_obat.svg';
 import ILDocPsikiater from './Doc_psikiater.svg';
+import ILBackgroundHospitals from './Hospitals.png';
 
 export {
   ILLogo,
@@ -14,4 +15,5 @@ export {
   ILDocObat,
   ILDocAnak,
   ILDocUmum,
+  ILBackgroundHospitals
 };
