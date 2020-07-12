@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import {HomeProfile, Doctor, RatedDoctor, NewsItem, Gap} from '../../component';
 import {fonts, colors} from '../../utils';
+import {JSONCategoryDoctor} from '../../assets';
 
 export default function Home() {
   return (
@@ -19,10 +20,9 @@ export default function Home() {
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.category}>
                 <Gap width={32} />
-                <Doctor />
-                <Doctor />
-                <Doctor />
-                <Doctor />
+                {JSONCategoryDoctor.data.map((item) => {
+                  return <Doctor key={item.id} category={item.category} />;
+                })}
                 <Gap width={22} />
               </View>
             </ScrollView>

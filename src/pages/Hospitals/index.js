@@ -8,7 +8,12 @@ import {
   Image,
 } from 'react-native';
 import {colors, fonts} from '../../utils';
-import {ILBackgroundHospitals} from '../../assets';
+import {
+  ILBackgroundHospitals,
+  DumyHospitals1,
+  DumyHospitals2,
+  DumyHospitals3,
+} from '../../assets';
 import {ListHospitals} from '../../component';
 
 export default function Message() {
@@ -21,10 +26,21 @@ export default function Message() {
       <View style={styles.contant}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View>
-            <ListHospitals />
-            <ListHospitals />
-            <ListHospitals />
-            <ListHospitals />
+            <ListHospitals
+              name="Citra Bunga Merdeka"
+              desc="Jln.Surya Sejahtera 20"
+              image={DumyHospitals1}
+            />
+            <ListHospitals
+              name="Happy Family & Kids"
+              desc="Jln.Surya Sejahtera 20"
+              image={DumyHospitals2}
+            />
+            <ListHospitals
+              name="Tingkatan Paling Atas"
+              desc="Jln.Surya Sejahtera 20"
+              image={DumyHospitals3}
+            />
           </View>
         </ScrollView>
       </View>
