@@ -8,6 +8,10 @@ import IcMessage from './message-inactive.svg';
 import IcHospitalsActive from './Hospitals-Avtive.svg';
 import IcHospitals from './Hospitals-inactive.svg';
 import IcStar from './rated_star.svg';
+import IcBackLight from './ic_arrow_back.light.svg';
+import IcNext from './ic_next.svg';
+import IcSendActive from './SendActive.svg';
+import IcSendDisable from './SendDisable.svg';
 
 export {
   IcBack,
@@ -19,5 +23,9 @@ export {
   IcHome,
   IcHospitalsActive,
   IcHospitals,
-  IcStar
+  IcStar,
+  IcBackLight,
+  IcNext,
+  IcSendActive,
+  IcSendDisable,
 };

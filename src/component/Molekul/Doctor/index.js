@@ -1,9 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {ILDocUmum, ILDocPsikiater, ILDocObat, ILDocAnak} from '../../../assets';
 import {colors, fonts} from '../../../utils';
 
-export default function Doctor({category}) {
+export default function Doctor({category, onPress}) {
   const Icon = () => {
     if (category === 'dokter umum')
       return <ILDocUmum style={styles.ilustration} />;
@@ -16,11 +16,11 @@ export default function Doctor({category}) {
     return <ILDocUmum style={styles.ilustration} />;
   };
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Icon />
       <Text style={styles.label}>Saya Butuh</Text>
       <Text style={styles.category}>{category}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

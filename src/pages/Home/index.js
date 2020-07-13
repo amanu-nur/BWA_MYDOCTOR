@@ -4,7 +4,7 @@ import {HomeProfile, Doctor, RatedDoctor, NewsItem, Gap} from '../../component';
 import {fonts, colors} from '../../utils';
 import {JSONCategoryDoctor} from '../../assets';
 
-export default function Home() {
+export default function Home({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -21,7 +21,13 @@ export default function Home() {
               <View style={styles.category}>
                 <Gap width={32} />
                 {JSONCategoryDoctor.data.map((item) => {
-                  return <Doctor key={item.id} category={item.category} />;
+                  return (
+                    <Doctor
+                      key={item.id}
+                      category={item.category}
+                      onPress={() => navigation.navigate('ChooseDoctor')}
+                    />
+                  );
                 })}
                 <Gap width={22} />
               </View>

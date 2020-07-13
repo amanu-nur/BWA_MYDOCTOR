@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {IcBack} from '../../../assets';
+import {IcBack, IcBackLight} from '../../../assets';
 
 export default function IconOnly({onPress, icon}) {
   const Icon = () => {
@@ -9,13 +9,13 @@ export default function IconOnly({onPress, icon}) {
       return <IcBack />;
     }
     if (icon === 'back-light') {
-      return <IcBack />;
+      return <IcBackLight />;
     }
     return <IcBack />;
   };
   return (
     <TouchableOpacity onPress={onPress}>
-      <Icon/>
+      <Icon />
     </TouchableOpacity>
   );
 }

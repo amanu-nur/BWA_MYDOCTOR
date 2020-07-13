@@ -1,18 +1,18 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { colors, fonts } from '../../../utils';
+import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {colors, fonts} from '../../../utils';
+import {IcNext} from '../../../assets';
 
-export default function ListDoctor({profile, name, desc}) {
+export default function ListDoctor({profile, name, desc, type, onPress}) {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image source={profile} style={styles.avatar} />
-      <View>
+      <View style={styles.profile}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.chat}>
-          {desc}
-        </Text>
+        <Text style={styles.chat}>{desc}</Text>
       </View>
-    </View>
+      {type === 'next' && <IcNext />}
+    </TouchableOpacity>
   );
 }
 
@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: colors.border,
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  profile: {
+    flex: 1,
   },
   avatar: {
     width: 46,
