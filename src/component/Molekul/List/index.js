@@ -1,12 +1,32 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {colors, fonts} from '../../../utils';
-import {IcNext} from '../../../assets';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  IcEditProfile,
+  IcGiveUsRated,
+  IcHelpCenter,
+  IcLanguage, IcNext
+} from '../../../assets';
+import { colors, fonts } from '../../../utils';
 
-export default function ListDoctor({profile, name, desc, type, onPress}) {
+export default function List({profile, name, desc, type, onPress, icon}) {
+  const Icon = () => {
+    if (icon === 'edit-profile') {
+      return <IcEditProfile />;
+    }
+    if (icon === 'language') {
+      return <IcLanguage />;
+    }
+    if (icon === 'rate') {
+      return <IcGiveUsRated />;
+    }
+    if (icon === 'help') {
+      return <IcHelpCenter />;
+    }
+    return <IcEditProfile />;
+  };
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Image source={profile} style={styles.avatar} />
+      {icon ? <Icon /> : <Image source={profile} style={styles.avatar} />}
       <View style={styles.profile}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.chat}>{desc}</Text>
@@ -27,6 +47,7 @@ const styles = StyleSheet.create({
   },
   profile: {
     flex: 1,
+    marginLeft:16
   },
   avatar: {
     width: 46,

@@ -1,12 +1,9 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import {IsMe, Other} from '..';
 
-export default function ChatItem() {
-    return (
-        <View>
-            <Text>ok</Text>
-        </View>
-    )
+export default function ChatItem({isMe}) {
+  if (isMe) {
+    return <IsMe />;
+  }
+  return <Other />;
 }
-
-const styles = StyleSheet.create({})

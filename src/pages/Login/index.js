@@ -21,7 +21,7 @@ export default function Login({navigation}) {
         }}
       />
       <Gap height={40} />
-          <Button title="Sing In" />
+          <Button title="Sing In" onPress={() => navigation.replace('MainApp')}/>
           <Gap height={30}/>
       <Link
         title="Create New Account"

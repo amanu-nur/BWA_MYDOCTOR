@@ -13,11 +13,13 @@ export default function Chatting({navigation}) {
         onPress={() => navigation.goBack()}
       />
       <View style={styles.contant}>
-        <ScrollView>
-          <Text style={styles.chatdate}>Senin, 21 Maret, 2020</Text>
-          <ChatItem />
-          <ChatItem />
-          <ChatItem />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View>
+            <Text style={styles.chatdate}>Senin, 21 Maret, 2020</Text>
+            <ChatItem isMe/>
+            <ChatItem />
+            <ChatItem isMe/>
+          </View>
         </ScrollView>
       </View>
       <InputChat />
@@ -29,10 +31,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     flex: 1,
-    },
-    contant: {
-        flex: 1
-    },
+  },
+  contant: {
+    flex: 1,
+  },
   chatdate: {
     fontSize: 11,
     fontFamily: fonts.primary.normal,

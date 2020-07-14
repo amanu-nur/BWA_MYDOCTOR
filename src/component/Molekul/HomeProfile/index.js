@@ -3,15 +3,13 @@ import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {DumyUser} from '../../../assets';
 import {fonts, colors} from '../../../utils';
 
-export default function HomePrifile() {
+export default function HomePrifile({onPress}) {
   return (
-    <TouchableOpacity>
-      <View style={styles.container}>
-        <Image source={DumyUser} style={styles.avatar} />
-        <View>
-          <Text style={styles.name}>Shayna Melinda</Text>
-          <Text style={styles.profession}>Product Designer</Text>
-        </View>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <Image source={DumyUser} style={styles.avatar} />
+      <View>
+        <Text style={styles.name}>Shayna Melinda</Text>
+        <Text style={styles.profession}>Product Designer</Text>
       </View>
     </TouchableOpacity>
   );

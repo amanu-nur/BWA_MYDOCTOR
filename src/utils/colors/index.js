@@ -9,7 +9,7 @@ const mainColor = {
   grey1: '#7d8797',
   grey2: '#e9e9e9',
   grey3: '#EDEEF0',
-  blue:'#0066CB'
+  blue: '#0066CB'
   
 };
 

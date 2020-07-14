@@ -2,7 +2,12 @@ import React from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import {HomeProfile, Doctor, RatedDoctor, NewsItem, Gap} from '../../component';
 import {fonts, colors} from '../../utils';
-import {JSONCategoryDoctor} from '../../assets';
+import {
+  JSONCategoryDoctor,
+  DumyDoctor1,
+  DumyDoctor2,
+  DumyDoctor3,
+} from '../../assets';
 
 export default function Home({navigation}) {
   return (
@@ -11,7 +16,7 @@ export default function Home({navigation}) {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.wrappercontant}>
             <Gap height={30} />
-            <HomeProfile />
+            <HomeProfile onPress={() => navigation.navigate('UserProfile')} />
             <Text style={styles.welcome}>
               Mau konsultasi dengan siapa hari ini?
             </Text>
@@ -35,9 +40,24 @@ export default function Home({navigation}) {
           </View>
           <View style={styles.wrappercontant}>
             <Text style={styles.text}>Top Rated Doctors</Text>
-            <RatedDoctor />
-            <RatedDoctor />
-            <RatedDoctor />
+            <RatedDoctor
+              avatar={DumyDoctor1}
+              name="Alexander"
+              desc="psikiater"
+              onPress={() => navigation.navigate('DoctorProfile')}
+            />
+            <RatedDoctor
+              avatar={DumyDoctor2}
+              name="Alexander"
+              desc="psikiater"
+              onPress={() => navigation.navigate('DoctorProfile')}
+            />
+            <RatedDoctor
+              avatar={DumyDoctor3}
+              name="Alexander"
+              desc="psikiater"
+              onPress={() => navigation.navigate('DoctorProfile')}
+            />
             <Text style={styles.text}>Good News</Text>
           </View>
           <NewsItem />

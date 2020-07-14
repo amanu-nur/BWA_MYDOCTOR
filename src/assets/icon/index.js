@@ -12,6 +12,10 @@ import IcBackLight from './ic_arrow_back.light.svg';
 import IcNext from './ic_next.svg';
 import IcSendActive from './SendActive.svg';
 import IcSendDisable from './SendDisable.svg';
+import IcEditProfile from './Edit_profile.svg';
+import IcLanguage from './Language.svg';
+import IcGiveUsRated from './GiveUsRated.svg';
+import IcHelpCenter from './HelpCenter.svg';
 
 export {
   IcBack,
@@ -28,4 +32,8 @@ export {
   IcNext,
   IcSendActive,
   IcSendDisable,
+  IcEditProfile,
+  IcLanguage,
+  IcGiveUsRated,
+  IcHelpCenter,
 };

@@ -1,15 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {DumyUser, IcStar} from '../../../assets';
-import {fonts, colors} from '../../../utils';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { IcStar } from '../../../assets';
+import { colors, fonts } from '../../../utils';
 
-export default function RatedDoctor() {
+export default function RatedDoctor({onPress, name, desc, avatar}) {
   return (
-    <View style={styles.container}>
-      <Image source={DumyUser} style={styles.avatar} />
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <Image source={avatar} style={styles.avatar} />
       <View style={styles.profile}>
-        <Text style={styles.name}>Amanu Nur Abdillah</Text>
-        <Text style={styles.category}>Pediatrician</Text>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.category}>{desc}</Text>
       </View>
       <View style={styles.star}>
         <IcStar />
@@ -18,7 +18,7 @@ export default function RatedDoctor() {
         <IcStar />
         <IcStar />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
