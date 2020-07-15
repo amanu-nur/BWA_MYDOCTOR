@@ -1,52 +1,85 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
-import {Button, Gap, Header, Input} from '../../component';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {Button, Gap, Header, Input, Loading} from '../../component';
+import {Fire} from '../../config';
 import {colors} from '../../utils/colors';
+import {useForm} from '../../utils/useForm';
+import {showMessage, hideMessage} from 'react-native-flash-message';
 
 export default function Register({navigation}) {
-  const [fullName, setFullName] = useState('');
-  const [profession, setProfession] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [form, setForm] = useForm({
+    fullName: '',
+    profession: '',
+    email: '',
+    password: '',
+  });
+
+  const [loading, setLoading] = useState(false);
 
   const onContinue = () => {
-    console.log(fullName, profession, email, password);
+    setLoading(true);
+    console.log(form);
+    Fire.auth()
+      .createUserWithEmailAndPassword(form.email, form.password)
+      .then((success) => {
+        setLoading(false);
+        setForm('reset');
+        showMessage({
+          message: 'Register succsess',
+          type: 'default',
+          backgroundColor: colors.primary, // background color
+          color: '#ffffff', // text color
+        });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        setLoading(false);
+        showMessage({
+          message: errorMessage,
+          type: 'default',
+          backgroundColor: colors.errorMessage, // background color
+          color: '#ffffff', // text color
+        });
+      });
   };
 
   return (
-    <View style={styles.container}>
-      <Header title="Daftar Akun" onPress={() => navigation.goBack()} />
-      <View style={styles.content}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Input
-            title="Full Name"
-            value={fullName}
-            onChangeText={(value) => setFullName(value)}
-          />
-          <Gap height={24} />
-          <Input
-            title="Pekerjaan"
-            value={profession}
-            onChangeText={(value) => setProfession(value)}
-          />
-          <Gap height={24} />
-          <Input
-            title="Email Address"
-            value={email}
-            onChangeText={(value) => setEmail(value)}
-          />
-          <Gap height={24} />
-          <Input
-            title="Password"
-            value={password}
-            onChangeText={(value) => setPassword(value)}
-            secureTextEntry
-          />
-          <Gap height={40} />
-          <Button title="Continue" onPress={onContinue} />
-        </ScrollView>
+    <>
+      <View style={styles.container}>
+        <Header title="Daftar Akun" onPress={() => navigation.goBack()} />
+        <View style={styles.content}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Input
+              title="Full Name"
+              value={form.fullName}
+              onChangeText={(value) => setForm('fullName', value)}
+            />
+            <Gap height={24} />
+            <Input
+              title="Pekerjaan"
+              value={form.profession}
+              onChangeText={(value) => setForm('profession', value)}
+            />
+            <Gap height={24} />
+            <Input
+              title="Email Address"
+              value={form.email}
+              onChangeText={(value) => setForm('email', value)}
+            />
+            <Gap height={24} />
+            <Input
+              title="Password"
+              value={form.password}
+              onChangeText={(value) => setForm('password', value)}
+              secureTextEntry
+            />
+            <Gap height={40} />
+            <Button title="Continue" onPress={onContinue} />
+          </ScrollView>
+        </View>
       </View>
-    </View>
+      {loading && <Loading />}
+    </>
   );
 }
 
