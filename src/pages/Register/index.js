@@ -5,6 +5,7 @@ import {Fire} from '../../config';
 import {colors} from '../../utils/colors';
 import {useForm} from '../../utils/useForm';
 import {showMessage, hideMessage} from 'react-native-flash-message';
+import {storeData} from '../../utils';
 
 export default function Register({navigation}) {
   const [form, setForm] = useForm({
@@ -19,17 +20,35 @@ export default function Register({navigation}) {
   const onContinue = () => {
     setLoading(true);
     console.log(form);
+
     Fire.auth()
       .createUserWithEmailAndPassword(form.email, form.password)
       .then((success) => {
+        const successMessage = success.user.email;
         setLoading(false);
         setForm('reset');
+
+        // database firebase
+
+        const data = {
+          fullName: form.fullName,
+          profession: form.profession,
+          email: form.email,
+        };
+
+        Fire.database()
+          .ref('users/' + success.user.uid + '/')
+          .set(data);
+
+        // -------------------------------
+        storeData('user', data);
         showMessage({
-          message: 'Register succsess',
+          message: `Register succsess ` + successMessage,
           type: 'default',
           backgroundColor: colors.primary, // background color
           color: '#ffffff', // text color
         });
+        navigation.navigate('UploadPhoto');
       })
       .catch((error) => {
         const errorMessage = error.message;

@@ -1,25 +1,43 @@
-import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {Header, Button, Link, Gap} from '../../component';
-import {ILUsernull, IcAddPhoto} from '../../assets';
+import {ILUsernull, IcAddPhoto, IcRemovePhoto} from '../../assets';
 import {colors, fonts} from '../../utils';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export default function UploadPhoto({navigation}) {
+  const [icon, setIcon] = useState(false);
+  const [photo, setPhoto] = useState(ILUsernull);
+
+  const uploadPhoto = () => {
+    ImagePicker.openPicker({
+      width: 400,
+      height: 400,
+      cropping: true,
+    }).then((image) => {
+      const source = {uri: image.path};
+      setPhoto(source);
+      setIcon(true);
+      console.log(image.path)
+    });
+  };
   return (
     <View style={styles.container}>
       <Header title="Upload Photo" onPress={() => navigation.goBack()} />
       <View style={styles.content}>
         <View style={styles.profile}>
-          <View style={styles.BorderUser}>
-            <Image source={ILUsernull} style={styles.photo} />
-            <IcAddPhoto style={styles.icon} />
-          </View>
+          <TouchableOpacity style={styles.BorderUser} onPress={uploadPhoto}>
+            <Image source={photo} style={styles.photo} />
+            {!icon && <IcAddPhoto style={styles.icon} />}
+            {icon && <IcRemovePhoto style={styles.icon} />}
+          </TouchableOpacity>
           <Text style={styles.name}>Alexander david</Text>
           <Text style={styles.profesion}>Produc Designer</Text>
         </View>
         <View>
           <Button
-            title="Continue"
+            title="Upload and Continue"
+            disable={!icon}
             onPress={() => navigation.replace('MainApp')}
           />
           <Gap height={40} />
@@ -54,6 +72,7 @@ const styles = StyleSheet.create({
   photo: {
     height: 110,
     width: 110,
+    borderRadius: 110 / 2,
   },
   BorderUser: {
     backgroundColor: colors.white,
