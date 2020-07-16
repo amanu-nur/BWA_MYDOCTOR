@@ -4,10 +4,13 @@ import {Header, Button, Link, Gap} from '../../component';
 import {ILUsernull, IcAddPhoto, IcRemovePhoto} from '../../assets';
 import {colors, fonts} from '../../utils';
 import ImagePicker from 'react-native-image-crop-picker';
+import {Fire} from '../../config';
 
-export default function UploadPhoto({navigation}) {
+export default function UploadPhoto({navigation, route}) {
   const [icon, setIcon] = useState(false);
   const [photo, setPhoto] = useState(ILUsernull);
+  const {fullName, profession, uid} = route.params;
+  const [photoForDB, setPhotoForDB] = useState('');
 
   const uploadPhoto = () => {
     ImagePicker.openPicker({
@@ -16,10 +19,17 @@ export default function UploadPhoto({navigation}) {
       cropping: true,
     }).then((image) => {
       const source = {uri: image.path};
+      setPhotoForDB(`data:${image.mime};base64,${image.data}`);
       setPhoto(source);
       setIcon(true);
-      console.log(image.path)
     });
+  };
+
+  const continuePage = () => {
+    Fire.database()
+      .ref('users/' + uid + '/')
+      .update({photo: photoForDB});
+    navigation.replace('MainApp');
   };
   return (
     <View style={styles.container}>
@@ -31,14 +41,15 @@ export default function UploadPhoto({navigation}) {
             {!icon && <IcAddPhoto style={styles.icon} />}
             {icon && <IcRemovePhoto style={styles.icon} />}
           </TouchableOpacity>
-          <Text style={styles.name}>Alexander david</Text>
-          <Text style={styles.profesion}>Produc Designer</Text>
+          <Text style={styles.name}>{fullName}</Text>
+          <Text style={styles.profesion}>{profession}</Text>
         </View>
+
         <View>
           <Button
             title="Upload and Continue"
             disable={!icon}
-            onPress={() => navigation.replace('MainApp')}
+            onPress={continuePage}
           />
           <Gap height={40} />
           <Link

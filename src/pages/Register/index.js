@@ -34,6 +34,7 @@ export default function Register({navigation}) {
           fullName: form.fullName,
           profession: form.profession,
           email: form.email,
+          uid: success.user.uid,
         };
 
         Fire.database()
@@ -48,7 +49,7 @@ export default function Register({navigation}) {
           backgroundColor: colors.primary, // background color
           color: '#ffffff', // text color
         });
-        navigation.navigate('UploadPhoto');
+        navigation.navigate('UploadPhoto', data);
       })
       .catch((error) => {
         const errorMessage = error.message;
