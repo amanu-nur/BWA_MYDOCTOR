@@ -1,7 +1,7 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import {HomeProfile, Doctor, RatedDoctor, NewsItem, Gap} from '../../component';
-import {fonts, colors} from '../../utils';
+import {fonts, colors, getData} from '../../utils';
 import {
   JSONCategoryDoctor,
   DumyDoctor1,
@@ -9,7 +9,8 @@ import {
   DumyDoctor3,
 } from '../../assets';
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
+ 
   return (
     <View style={styles.container}>
       <View style={styles.content}>

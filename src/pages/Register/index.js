@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Gap, Header, Input, Loading} from '../../component';
 import {Fire} from '../../config';
 import {colors} from '../../utils/colors';
 import {useForm} from '../../utils/useForm';
-import {showMessage, hideMessage} from 'react-native-flash-message';
+import {showMessage} from 'react-native-flash-message';
 import {storeData} from '../../utils';
 
 export default function Register({navigation}) {
@@ -20,6 +20,7 @@ export default function Register({navigation}) {
   const onContinue = () => {
     setLoading(true);
     console.log(form);
+    
 
     Fire.auth()
       .createUserWithEmailAndPassword(form.email, form.password)
@@ -67,8 +68,8 @@ export default function Register({navigation}) {
     <>
       <View style={styles.container}>
         <Header title="Daftar Akun" onPress={() => navigation.goBack()} />
-        <View style={styles.content}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.content}>
             <Input
               title="Full Name"
               value={form.fullName}
@@ -95,8 +96,8 @@ export default function Register({navigation}) {
             />
             <Gap height={40} />
             <Button title="Continue" onPress={onContinue} />
-          </ScrollView>
-        </View>
+          </View>
+        </ScrollView>
       </View>
       {loading && <Loading />}
     </>

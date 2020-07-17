@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {Header, Button, Link, Gap} from '../../component';
 import {ILUsernull, IcAddPhoto, IcRemovePhoto} from '../../assets';
-import {colors, fonts} from '../../utils';
+import {colors, fonts, storeData} from '../../utils';
 import ImagePicker from 'react-native-image-crop-picker';
 import {Fire} from '../../config';
 
@@ -14,11 +14,13 @@ export default function UploadPhoto({navigation, route}) {
 
   const uploadPhoto = () => {
     ImagePicker.openPicker({
-      width: 400,
-      height: 400,
+      width: 300,
+      height: 300,
       cropping: true,
+      includeBase64: true,
     }).then((image) => {
       const source = {uri: image.path};
+      console.log(image)
       setPhotoForDB(`data:${image.mime};base64,${image.data}`);
       setPhoto(source);
       setIcon(true);
@@ -29,6 +31,12 @@ export default function UploadPhoto({navigation, route}) {
     Fire.database()
       .ref('users/' + uid + '/')
       .update({photo: photoForDB});
+
+    const data = route.params;
+    data.photo = photoForDB
+
+    storeData('user', data)
+
     navigation.replace('MainApp');
   };
   return (

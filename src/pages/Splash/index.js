@@ -3,11 +3,20 @@ import {StyleSheet, Text, View} from 'react-native';
 import {ILLogo} from '../../assets';
 import { colors } from '../../utils/colors';
 import { fonts } from '../../utils';
+import { Fire } from '../../config';
 
 export default function Splash({navigation}) {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('GetStarted');
+      Fire.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // user login
+          navigation.replace('MainApp');
+        } else {
+          // user logout
+          navigation.replace('GetStarted');
+        }
+      })
     }, 3000);
   }, []);
 
