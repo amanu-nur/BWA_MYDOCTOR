@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
+import {showMessage} from 'react-native-flash-message';
 import {Button, Gap, Header, Input, Loading} from '../../component';
 import {Fire} from '../../config';
+import {storeData} from '../../utils';
 import {colors} from '../../utils/colors';
 import {useForm} from '../../utils/useForm';
-import {showMessage} from 'react-native-flash-message';
-import {storeData} from '../../utils';
 
 export default function Register({navigation}) {
   const [form, setForm] = useForm({
@@ -20,7 +20,6 @@ export default function Register({navigation}) {
   const onContinue = () => {
     setLoading(true);
     console.log(form);
-    
 
     Fire.auth()
       .createUserWithEmailAndPassword(form.email, form.password)
@@ -38,6 +37,8 @@ export default function Register({navigation}) {
           uid: success.user.uid,
         };
 
+        navigation.navigate('UploadPhoto', data);
+
         Fire.database()
           .ref('users/' + success.user.uid + '/')
           .set(data);
@@ -50,7 +51,6 @@ export default function Register({navigation}) {
           backgroundColor: colors.primary, // background color
           color: '#ffffff', // text color
         });
-        navigation.navigate('UploadPhoto', data);
       })
       .catch((error) => {
         const errorMessage = error.message;

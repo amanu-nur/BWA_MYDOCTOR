@@ -59,11 +59,11 @@ const Router = () => {
         component={UploadPhoto}
         options={{headerShown: false}}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="MainApp"
         component={MainApp}
         options={{headerShown: false}}
-      />
+      /> */}
       <Stack.Screen
         name="ChooseDoctor"
         component={ChooseDoctor}

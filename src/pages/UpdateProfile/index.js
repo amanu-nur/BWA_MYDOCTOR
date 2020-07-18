@@ -13,7 +13,7 @@ export default function UpdateProfile({navigation}) {
     photo: ILUsernull,
   });
 
-  const [password, storePassword] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     getData('user').then((res) => {
@@ -23,13 +23,27 @@ export default function UpdateProfile({navigation}) {
     });
   });
 
-  const update = () => {
+  const updateProfile = () => {
+    console.log('profile', profile);
+    const data = profile;
+    data.photo = profile.photo.uri;
     Fire.database()
       .ref(`users/${profile.uid}/`)
-      .update(profile)
+      .update(data)
       .then((res) => {
-        console.log('success', res).catch((err) => {
-          console.log(err);
+        showMessage({
+          message: `Register succsess `,
+          type: 'default',
+          backgroundColor: colors.primary, // background color
+          color: '#ffffff', // text color
+        });
+      })
+      .catch((err) => {
+        showMessage({
+          message: err.message,
+          type: 'default',
+          backgroundColor: colors.errorMessage, // background color
+          color: '#ffffff', // text color
         });
       });
   };
@@ -60,14 +74,14 @@ export default function UpdateProfile({navigation}) {
           <Input
             title="Pekerjaan"
             value={profile.profession}
-            onChangeText={(value) => changeText('profession', value)}
+            onChangeText={value =>  changeText('profession', value) }
           />
           <Gap height={24} />
           <Input title="Email" value={profile.email} disable />
           <Gap height={24} />
           <Input title="Password" />
           <Gap height={40} />
-          <Button title="Save Profile" onPress={update} />
+          <Button title="Save Profile" onPress={updateProfile} />
         </View>
       </ScrollView>
     </View>

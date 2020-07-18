@@ -2,22 +2,31 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import {Header, List, Profile, Gap} from '../../component';
 import {colors, getData} from '../../utils';
-import { ILUsernull } from '../../assets';
+import {ILUsernull} from '../../assets';
+import {Fire} from '../../config';
 
 export default function UserProfile({navigation}) {
   const [profile, setProfile] = useState({
-    fullName:'',
+    fullName: '',
     profession: '',
     photo: ILUsernull,
   });
 
   useEffect(() => {
-    getData('user').then(res => {
+    getData('user').then((res) => {
       const data = res;
-      data.photo ={uri: res.photo}
-      setProfile(res)
-    })
-  })
+      data.photo = {uri: res.photo};
+      setProfile(res);
+    });
+  });
+
+  const singOut = () => {
+    Fire.auth().signOut().then(function() {
+      navigation.replace('GetStarted')
+    }).catch(function(error) {
+      // An error happened.
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -25,9 +34,14 @@ export default function UserProfile({navigation}) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <Gap height={10} />
-          {profile.fullName.length > 0 &&
-          <Profile name={profile.fullName} desc={profile.profession} photo={profile.photo} />}
-          
+          {profile.fullName.length > 0 && (
+            <Profile
+              name={profile.fullName}
+              desc={profile.profession}
+              photo={profile.photo}
+            />
+          )}
+
           <Gap height={14} />
           <List
             type="next"
@@ -50,9 +64,10 @@ export default function UserProfile({navigation}) {
           />
           <List
             type="next"
-            name="Help center"
+            name="Sing Out"
             desc="Read our guidelines"
             icon="help"
+            onPress={singOut}
           />
         </View>
       </ScrollView>
@@ -64,6 +79,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-    
-  }
+  },
 });

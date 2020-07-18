@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {ILLogo} from '../../assets';
-import { colors } from '../../utils/colors';
-import { fonts } from '../../utils';
-import { Fire } from '../../config';
+import {colors} from '../../utils/colors';
+import {fonts} from '../../utils';
+import {Fire} from '../../config';
 
 export default function Splash({navigation}) {
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function Splash({navigation}) {
           // user logout
           navigation.replace('GetStarted');
         }
-      })
+      });
     }, 3000);
   }, []);
 
