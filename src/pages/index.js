@@ -11,6 +11,7 @@ import Chatting from './Chatting';
 import Userprofile from './Userprofile';
 import UpdateProfile from './UpdateProfile';
 import DoctorProfile from './DoctorProfile';
+import ResetPass from './FotgotPass';
 
 export {
   Splash,
@@ -25,5 +26,6 @@ export {
   Chatting,
   Userprofile,
   UpdateProfile,
-  DoctorProfile
+  DoctorProfile,
+  ResetPass
 };

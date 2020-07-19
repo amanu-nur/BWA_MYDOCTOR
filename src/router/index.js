@@ -14,6 +14,7 @@ import {
   Userprofile,
   UpdateProfile,
   DoctorProfile,
+  ResetPass,
 } from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomNavigator} from '../component';
@@ -59,11 +60,11 @@ const Router = () => {
         component={UploadPhoto}
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="MainApp"
         component={MainApp}
         options={{headerShown: false}}
-      /> */}
+      />
       <Stack.Screen
         name="ChooseDoctor"
         component={ChooseDoctor}
@@ -87,6 +88,11 @@ const Router = () => {
       <Stack.Screen
         name="DoctorProfile"
         component={DoctorProfile}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ResetPass"
+        component={ResetPass}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

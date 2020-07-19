@@ -22,7 +22,7 @@ export default function UserProfile({navigation}) {
 
   const singOut = () => {
     Fire.auth().signOut().then(function() {
-      navigation.replace('GetStarted')
+      navigation.navigate('GetStarted')
     }).catch(function(error) {
       // An error happened.
     });

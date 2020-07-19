@@ -1,28 +1,26 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import {ILLogo} from '../../assets';
-import {Input, Link, Button, Gap, Loading} from '../../component';
-import {colors} from '../../utils/colors';
-import {fonts, useForm, storeData} from '../../utils';
-import {Fire} from '../../config';
-import {showMessage} from 'react-native-flash-message';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { ILLogo } from '../../assets';
+import { Button, Gap, Input, Link } from '../../component';
+import { Fire } from '../../config';
+import { fonts, showError, showSuccess, storeData, useForm } from '../../utils';
+import { colors } from '../../utils/colors';
 
 export default function Login({navigation}) {
-  const [loading, setLoading] = useState(false);
   const [form, setForm] = useForm({
     email: '',
     password: '',
   });
+  const dispatch = useDispatch();
 
   const login = () => {
-    setLoading(true);
+    dispatch({type: 'SET_LOADING', value: true});
     Fire.auth()
       .signInWithEmailAndPassword(form.email, form.password)
       .then((res) => {
-        setLoading(false);
-
+        dispatch({type: 'SET_LOADING', value: false});
         // get database
-
         Fire.database()
           .ref(`users/${res.user.uid}/`)
           .once('value')
@@ -32,65 +30,49 @@ export default function Login({navigation}) {
             }
             navigation.replace('MainApp');
           });
-
         // ------------
-
-        showMessage({
-          message: `Login succsess `,
-          type: 'default',
-          backgroundColor: colors.primary, // background color
-          color: '#ffffff', // text color
-        });
+        const success = 'Login Success';
+        showSuccess(success);
       })
       .catch((err) => {
-        setLoading(false);
-        const errorMessage = err.message;
-        showMessage({
-          message: errorMessage,
-          type: 'default',
-          backgroundColor: colors.errorMessage, // background color
-          color: '#ffffff', // text color
-        });
+        dispatch({type: 'SET_LOADING', value: false});
+        showError(err.message);
       });
   };
   return (
-    <>
-      <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <ILLogo />
-          <Text style={styles.text}>Masuk dan mulai konsultasi</Text>
-          <Input
-            title="Email Address"
-            value={form.email}
-            onChangeText={(value) => setForm('email', value)}
-          />
-          <Gap height={24} />
-          <Input
-            title="Password"
-            value={form.password}
-            onChangeText={(value) => setForm('password', value)}
-            secureTextEntry
-          />
-          <Link
-            title="Forgot My Password"
-            size={12}
-            onPress={() => {
-              alert('Maaf fitur ini belum tersedia');
-            }}
-          />
-          <Gap height={40} />
-          <Button title="Sing In" onPress={login} />
-          <Gap height={30} />
-          <Link
-            title="Create New Account"
-            size={16}
-            align="center"
-            onPress={() => navigation.navigate('Register')}
-          />
-        </ScrollView>
-      </View>
-      {loading && <Loading />}
-    </>
+    <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <ILLogo />
+        <Text style={styles.text}>Masuk dan mulai konsultasi</Text>
+        <Input
+          title="Email Address"
+          value={form.email}
+          onChangeText={(value) => setForm('email', value)}
+        />
+        <Gap height={24} />
+        <Input
+          title="Password"
+          value={form.password}
+          onChangeText={(value) => setForm('password', value)}
+          secureTextEntry
+        />
+        <Gap height={12} />
+        <Link
+          title="Forgot My Password"
+          size={12}
+          onPress={() => navigation.navigate('ResetPass')}
+        />
+        <Gap height={40} />
+        <Button title="Sing In" onPress={login} />
+        <Gap height={30} />
+        <Link
+          title="Create New Account"
+          size={16}
+          align="center"
+          onPress={() => navigation.navigate('Register')}
+        />
+      </ScrollView>
+    </View>
   );
 }
 

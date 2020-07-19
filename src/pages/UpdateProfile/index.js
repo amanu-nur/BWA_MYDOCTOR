@@ -1,50 +1,75 @@
-import React, {useState, useEffect} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
-import {Button, Gap, Header, Input, Profile} from '../../component';
-import {colors, getData} from '../../utils';
-import {ILUsernull} from '../../assets';
-import {Fire} from '../../config';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+import { ILUsernull } from '../../assets';
+import { Button, Gap, Header, Input, Profile } from '../../component';
+import { Fire } from '../../config';
+import { colors, getData, showError, showSuccess, storeData } from '../../utils';
 
 export default function UpdateProfile({navigation}) {
-  const [profile, setProfile] = useState({
-    fullName: '',
-    profession: '',
-    email: '',
-    photo: ILUsernull,
-  });
+  const [profile, setProfile] = useState(
+    {
+      fullName: '',
+      profession: '',
+      email: '',
+      photo: ILUsernull,
+    },
+    [],
+  );
 
   const [password, setPassword] = useState('');
+  const [photo, setPhoto] = useState(ILUsernull);
+  const [photoForDB, setPhotoForDB] = useState('');
 
   useEffect(() => {
     getData('user').then((res) => {
       const data = res;
-      data.photo = {uri: res.photo};
+      setPhoto({uri: res.photo});
       setProfile(data);
     });
-  });
+  }, []);
 
   const updateProfile = () => {
-    console.log('profile', profile);
+
+    if (password.length > 0) {
+      if (password.length < 6) {
+        
+        showError('Password Kurang Dari 6 Karakter')
+      } else {
+        updatePassword()
+        updateProfileData()
+        navigation.replace('MainApp')
+      }
+    } else {
+      updateProfileData()
+     
+    }
+  };
+
+  const updatePassword = () => {
+    Fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        user.updatePassword(password).then((succsess) => {
+          showSuccess('Update Password Successful')
+        });
+      } 
+    });
+  };
+
+  const updateProfileData = () => {
     const data = profile;
-    data.photo = profile.photo.uri;
+    data.photo = photoForDB;
+
     Fire.database()
       .ref(`users/${profile.uid}/`)
       .update(data)
       .then((res) => {
-        showMessage({
-          message: `Register succsess `,
-          type: 'default',
-          backgroundColor: colors.primary, // background color
-          color: '#ffffff', // text color
-        });
+        showSuccess('Update profile Succsess')
+        storeData('user', data);
+        navigation.replace('MainApp', data)
       })
       .catch((err) => {
-        showMessage({
-          message: err.message,
-          type: 'default',
-          backgroundColor: colors.errorMessage, // background color
-          color: '#ffffff', // text color
-        });
+        showError(err.message)
       });
   };
 
@@ -55,15 +80,28 @@ export default function UpdateProfile({navigation}) {
     });
   };
 
+  const getImage = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      includeBase64: true,
+    }).then((image) => {
+      const source = {uri: image.path};
+      console.log(image);
+      setPhotoForDB(`data:${image.mime};base64,${image.data}`);
+      setPhoto(source);
+      setIcon(true);
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <Header
-        title="Update Profile"
-        onPress={() => navigation.goBack('UserProfile')}
-      />
+      <Header title="Update Profile" onPress={() => navigation.goBack()} />
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.contant}>
-          <Profile isRemove photo={profile.photo} />
+          <Profile isRemove photo={photo} onPress={getImage} />
           <Gap height={26} />
           <Input
             title="Full Name"
@@ -74,12 +112,16 @@ export default function UpdateProfile({navigation}) {
           <Input
             title="Pekerjaan"
             value={profile.profession}
-            onChangeText={value =>  changeText('profession', value) }
+            onChangeText={(value) => changeText('profession', value)}
           />
           <Gap height={24} />
           <Input title="Email" value={profile.email} disable />
           <Gap height={24} />
-          <Input title="Password" />
+          <Input
+            title="Password"
+            onChangeText={(value) => setPassword(value)}
+            secureTextEntry
+          />
           <Gap height={40} />
           <Button title="Save Profile" onPress={updateProfile} />
         </View>

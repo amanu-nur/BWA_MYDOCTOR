@@ -1,12 +1,13 @@
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {
   IcEditProfile,
   IcGiveUsRated,
-  IcHelpCenter,
-  IcLanguage, IcNext
+  IcLanguage,
+  IcNext,
+  IcSingOut,
 } from '../../../assets';
-import { colors, fonts } from '../../../utils';
+import {colors, fonts} from '../../../utils';
 
 export default function List({profile, name, desc, type, onPress, icon}) {
   const Icon = () => {
@@ -20,7 +21,7 @@ export default function List({profile, name, desc, type, onPress, icon}) {
       return <IcGiveUsRated />;
     }
     if (icon === 'help') {
-      return <IcHelpCenter />;
+      return <IcSingOut />;
     }
     return <IcEditProfile />;
   };
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   },
   profile: {
     flex: 1,
-    marginLeft:16
+    marginLeft: 16,
   },
   avatar: {
     width: 46,

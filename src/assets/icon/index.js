@@ -15,7 +15,7 @@ import IcSendDisable from './SendDisable.svg';
 import IcEditProfile from './Edit_profile.svg';
 import IcLanguage from './Language.svg';
 import IcGiveUsRated from './GiveUsRated.svg';
-import IcHelpCenter from './HelpCenter.svg';
+import IcSingOut from './singOut.svg';
 
 export {
   IcBack,
@@ -35,5 +35,5 @@ export {
   IcEditProfile,
   IcLanguage,
   IcGiveUsRated,
-  IcHelpCenter,
+  IcSingOut,
 };
