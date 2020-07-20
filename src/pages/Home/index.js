@@ -1,5 +1,5 @@
-import React,{useEffect} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View, ScrollView, FlatList} from 'react-native';
 import {HomeProfile, Doctor, RatedDoctor, NewsItem, Gap} from '../../component';
 import {fonts, colors, getData} from '../../utils';
 import {
@@ -10,7 +10,23 @@ import {
 } from '../../assets';
 
 export default function Home({ navigation }) {
- 
+  
+  const [data, setData] = useState([]);
+  const ApiHealth =
+    'http://newsapi.org/v2/top-headlines?country=id&apiKey=bd53b9de417b41dbbe9eedb128524d88';
+
+  useEffect(() => {
+    fetch(ApiHealth)
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json.articles);
+       
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  console.log('data',data)
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -61,9 +77,19 @@ export default function Home({ navigation }) {
             />
             <Text style={styles.text}>Good News</Text>
           </View>
-          <NewsItem />
-          <NewsItem />
-          <NewsItem />
+
+          <FlatList
+            data={data}
+            keyExtractor={({id}, index) => id}
+            renderItem={({item}) => (
+              <NewsItem
+                title={item.title}
+                date={item.publishedAt}
+                image={{ uri: item.urlToImage }}
+              />
+            )}
+          />
+
           <Gap height={30} />
         </ScrollView>
       </View>

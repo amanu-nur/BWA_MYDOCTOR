@@ -3,16 +3,16 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import {fonts, colors} from '../../../utils';
 import {DumyTopic} from '../../../assets';
 
-export default function NewsItem() {
+export default function NewsItem({ title, date, image }) {
   return (
     <View style={styles.container}>
       <View style={styles.contant}>
         <Text style={styles.topic}>
-          Is it safe to stay at home during coronavirus?
+          {title}
         </Text>
-        <Text style={styles.date}>Today</Text>
+        <Text style={styles.date}>{date}</Text>
       </View>
-      <Image source={DumyTopic} style={styles.TopicImg} />
+      <Image source={image} style={styles.TopicImg} />
     </View>
   );
 }
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     borderBottomColor: colors.border,
     paddingHorizontal: 16,
+    alignItems:'center'
   },
   contant: {
     flex: 1,
