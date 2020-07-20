@@ -25,7 +25,6 @@ export default function Home({ navigation }) {
       .catch((error) => console.error(error));
   }, []);
 
-  console.log('data',data)
 
   return (
     <View style={styles.container}>

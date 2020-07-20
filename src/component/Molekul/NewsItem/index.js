@@ -1,14 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {fonts, colors} from '../../../utils';
+import {fonts, colors, LimitString} from '../../../utils';
 import {DumyTopic} from '../../../assets';
 
-export default function NewsItem({ title, date, image }) {
+export default function NewsItem({title, date, image}) {
   return (
     <View style={styles.container}>
       <View style={styles.contant}>
         <Text style={styles.topic}>
-          {title}
+          {/* {title} */}
+          {LimitString(title, 40)}
         </Text>
         <Text style={styles.date}>{date}</Text>
       </View>
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     borderBottomColor: colors.border,
     paddingHorizontal: 16,
-    alignItems:'center'
+    alignItems: 'center',
   },
   contant: {
     flex: 1,
