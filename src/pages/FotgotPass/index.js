@@ -13,7 +13,7 @@ export default function ResetPass({navigation}) {
 
   const Reset = () => {
     dispatch({type: 'SET_LOADING', value: true});
-    console.log(form.email);
+    
 
     Fire.auth()
       .sendPasswordResetEmail(form.email)

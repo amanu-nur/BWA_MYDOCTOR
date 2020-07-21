@@ -12,6 +12,8 @@ import IsMe from './isMe';
 import Other from './Other';
 import Profile from './Profile';
 import ProfileItem from './ProfileItem';
+
+
 export {
   Header,
   BottomNavigator,
@@ -26,5 +28,6 @@ export {
   IsMe,
   Other,
   Profile,
-  ProfileItem
+  ProfileItem,
+  
 };

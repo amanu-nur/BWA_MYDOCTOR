@@ -88,7 +88,7 @@ export default function UpdateProfile({navigation}) {
       includeBase64: true,
     }).then((image) => {
       const source = {uri: image.path};
-      console.log(image);
+      
       setPhotoForDB(`data:${image.mime};base64,${image.data}`);
       setPhoto(source);
       setIcon(true);

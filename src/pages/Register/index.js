@@ -18,7 +18,7 @@ export default function Register({navigation}) {
 
   const onContinue = () => {
     dispatch({type: 'SET_LOADING', value: true});
-    console.log(form);
+    
 
     Fire.auth()
       .createUserWithEmailAndPassword(form.email, form.password)

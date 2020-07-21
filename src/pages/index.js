@@ -12,6 +12,7 @@ import Userprofile from './Userprofile';
 import UpdateProfile from './UpdateProfile';
 import DoctorProfile from './DoctorProfile';
 import ResetPass from './FotgotPass';
+import News from './News'
 
 export {
   Splash,
@@ -27,5 +28,6 @@ export {
   Userprofile,
   UpdateProfile,
   DoctorProfile,
-  ResetPass
+  ResetPass,
+  News
 };

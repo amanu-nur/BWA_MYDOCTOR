@@ -1,11 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {fonts, colors, LimitString} from '../../../utils';
-import {DumyTopic} from '../../../assets';
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { colors, fonts, LimitString } from '../../../utils';
 
-export default function NewsItem({title, date, image}) {
+export default function NewsItem({title, date, image, onPress}) {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.contant}>
         <Text style={styles.topic}>
           {/* {title} */}
@@ -14,7 +13,7 @@ export default function NewsItem({title, date, image}) {
         <Text style={styles.date}>{date}</Text>
       </View>
       <Image source={image} style={styles.TopicImg} />
-    </View>
+    </TouchableOpacity>
   );
 }
 

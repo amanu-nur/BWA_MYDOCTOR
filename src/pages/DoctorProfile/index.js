@@ -3,20 +3,21 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Gap, Header, Profile, ProfileItem} from '../../component';
 import {colors} from '../../utils';
 
-export default function DoctorProfile({navigation}) {
+export default function DoctorProfile({ navigation, route }) {
+  const profileDoctor = route.params;
   return (
     <View style={styles.container}>
       <Header title="Doctor Profile" onPress={() => navigation.goBack()} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
-          <Profile name="Alexander" desc="Dokter Anak" />
+          <Profile name={profileDoctor.data.fullName} desc={profileDoctor.data.profession} photo={{uri: profileDoctor.data.photo}}/>
           <Gap height={10} />
-          <ProfileItem label="Alumnus" value="Universitas Indonesia, 2020" />
+          <ProfileItem label="Alumnus" value={profileDoctor.data.university} />
           <ProfileItem
             label="Tempat Praktik"
-            value="Rumah Sakit Umum, Bandung"
+            value={profileDoctor.data.hospital_address}
           />
-          <ProfileItem label="No.STR" value="0000116622081996" />
+          <ProfileItem label="No.STR" value={profileDoctor.data.str_number} />
           <View style={styles.action}>
             <Button
               title="Start Consultation"
@@ -37,5 +38,6 @@ const styles = StyleSheet.create({
   action: {
     paddingHorizontal: 40,
     paddingTop: 23,
+    paddingBottom:16
   },
 });

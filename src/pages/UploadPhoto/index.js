@@ -20,7 +20,7 @@ export default function UploadPhoto({navigation, route}) {
       includeBase64: true,
     }).then((image) => {
       const source = {uri: image.path};
-      console.log(image)
+
       setPhotoForDB(`data:${image.mime};base64,${image.data}`);
       setPhoto(source);
       setIcon(true);
@@ -33,9 +33,9 @@ export default function UploadPhoto({navigation, route}) {
       .update({photo: photoForDB});
 
     const data = route.params;
-    data.photo = photoForDB
+    data.photo = photoForDB;
 
-    storeData('user', data)
+    storeData('user', data);
 
     navigation.replace('MainApp');
   };
