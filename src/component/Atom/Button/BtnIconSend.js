@@ -3,11 +3,17 @@ import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {IcSendActive, IcSendDisable} from '../../../assets';
 import {colors} from '../../../utils';
 
-export default function BtnIconSend({disable}) {
+export default function BtnIconSend({disable, onPress}) {
+  if (disable) {
+    return (
+      <View style={styles.container(disable)}>
+        <IcSendDisable />
+      </View>
+    );
+  }
   return (
-    <TouchableOpacity style={styles.container(disable)}>
-      {disable && <IcSendDisable />}
-      {!disable && <IcSendActive />}
+    <TouchableOpacity style={styles.container(disable)} onPress={onPress}>
+      <IcSendActive />
     </TouchableOpacity>
   );
 }

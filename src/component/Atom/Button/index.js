@@ -7,7 +7,7 @@ import {fonts} from '../../../utils';
 
 export default function Button({title, type, onPress, icon, disable}) {
   if (type === 'btn-icon-send') {
-    return <BtnIconSend disable={disable} />;
+    return <BtnIconSend disable={disable} onPress={onPress}/>;
   }
   if (type === 'icon-only') {
     return <IconOnly icon={icon} onPress={onPress} />;

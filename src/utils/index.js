@@ -4,3 +4,4 @@ export * from './useForm';
 export * from './localStorage';
 export * from './showMessage'
 export * from './LimitString'
+export * from './date'

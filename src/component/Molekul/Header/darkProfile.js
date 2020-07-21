@@ -1,11 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {colors} from '../../../utils/colors';
-import {Button, Gap} from '../../Atom';
-import {fonts} from '../../../utils';
-import {DumyDoctor1} from '../../../assets';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { fonts } from '../../../utils';
+import { colors } from '../../../utils/colors';
+import { Button, Gap } from '../../Atom';
 
-export default function darkProfile({title, onPress, desc}) {
+export default function darkProfile({title, onPress, desc, photo}) {
   return (
     <View>
       <View style={styles.container}>
@@ -14,7 +13,7 @@ export default function darkProfile({title, onPress, desc}) {
           <Text style={styles.name}>{title}</Text>
           <Text style={styles.profesi}>{desc}</Text>
         </View>
-        <Image source={DumyDoctor1} style={styles.avatar} />
+        <Image source={photo} style={styles.avatar} />
         <Gap width={24} />
       </View>
     </View>
