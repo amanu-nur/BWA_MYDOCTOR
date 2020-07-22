@@ -1,43 +1,63 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import {colors, fonts} from '../../utils';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {List} from '../../component';
-import {DumyDoctor1, DumyDoctor2, DumyDoctor3} from '../../assets';
-
+import {Fire} from '../../config';
+import {colors, fonts, getData} from '../../utils';
 export default function Message({navigation}) {
-  const [doctors] = useState([
-    {
-      id: 1,
-      profile: DumyDoctor1,
-      name: 'Alexander Jannie',
-      desc: 'Baik ibu, terimakasih banyak atas wakt...',
-    },
-    {
-      id: 2,
-      profile: DumyDoctor2,
-      name: 'Nairobi Putri Hayza',
-      desc: 'Oh tentu saja tidak karena jeruk it...',
-    },
-    {
-      id: 3,
-      profile: DumyDoctor3,
-      name: 'Jhon McParker Steve',
-      desc: 'Oke tentu pak dokter bagaimana unt...',
-    },
-  ]);
+  const [user, setUser] = useState([]);
+  const [historyChat, setHistoryChat] = useState([]);
+
+  useEffect(() => {
+    getDataUserLokal();
+
+    const rootDb = Fire.database().ref();
+    const urlHistory = `messages/${user.uid}/`;
+    const messagesDB = rootDb.child(urlHistory);
+
+    messagesDB.on('value', async (snapshot) => {
+      if (snapshot.val()) {
+        const olDdata = snapshot.val();
+        const data = [];
+
+        const promises = await Object.keys(olDdata).map(async (key) => {
+          const urlUidDoctor = `doctors/${olDdata[key].uidPartner}`;
+          const detailDoctor = await rootDb.child(urlUidDoctor).once('value');
+
+          data.push({
+            id: key,
+            detailDoctor: detailDoctor.val(),
+            ...olDdata[key],
+          });
+        });
+        await Promise.all(promises);
+        setHistoryChat(data);
+      }
+    });
+  }, [user.uid]);
+
+  const getDataUserLokal = () => {
+    getData('user').then((res) => {
+      setUser(res);
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.contant}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>Message</Text>
-          {doctors.map((doctor) => {
+          {historyChat.map((chat) => {
+            const dataDoctor = {
+              id: chat.detailDoctor.uid,
+              data: chat.detailDoctor,
+            };
             return (
               <List
-                key={doctor.id}
-                profile={doctor.profile}
-                name={doctor.name}
-                desc={doctor.desc}
-                onPress={()=> navigation.navigate('Chatting')}
+                key={chat.id}
+                profile={{uri: chat.detailDoctor.photo}}
+                name={chat.detailDoctor.fullName}
+                desc={chat.lastContentChat}
+                onPress={() => navigation.navigate('Chatting', dataDoctor)}
               />
             );
           })}

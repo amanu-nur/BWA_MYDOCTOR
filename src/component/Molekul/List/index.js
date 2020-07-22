@@ -7,7 +7,7 @@ import {
   IcNext,
   IcSingOut,
 } from '../../../assets';
-import {colors, fonts} from '../../../utils';
+import {colors, fonts, LimitString} from '../../../utils';
 
 export default function List({profile, name, desc, type, onPress, icon}) {
   const Icon = () => {
@@ -30,7 +30,7 @@ export default function List({profile, name, desc, type, onPress, icon}) {
       {icon ? <Icon /> : <Image source={profile} style={styles.avatar} />}
       <View style={styles.profile}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.chat}>{desc}</Text>
+        <Text style={styles.chat}>{LimitString(desc, 40)}</Text>
       </View>
       {type === 'next' && <IcNext />}
     </TouchableOpacity>

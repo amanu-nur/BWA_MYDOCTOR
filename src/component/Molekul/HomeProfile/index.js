@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {DumyUser, ILUsernull} from '../../../assets';
-import {fonts, colors, getData} from '../../../utils';
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ILUsernull } from '../../../assets';
+import { colors, fonts, getData } from '../../../utils';
 
 export default function HomePrifile({onPress}) {
   const [profile, setProfile] = useState({

@@ -6,7 +6,7 @@ import {Fire} from '../../config';
 
 export default function Chatting({navigation, route}) {
   const dataDoctor = route.params;
-  const [chatContant, setChatContant] = useState('');
+  const [chatContent, setChatContent] = useState('');
   const [user, setUser] = useState({});
   const [chatData, setChatData] = useState([]);
 
@@ -15,6 +15,7 @@ export default function Chatting({navigation, route}) {
 
     const ChatId = `${user.uid}_${dataDoctor.data.uid}`;
     const url = `chatting/${ChatId}/allChat/`;
+
     Fire.database()
       .ref(url)
       .on('value', (snapshot) => {
@@ -40,7 +41,7 @@ export default function Chatting({navigation, route}) {
           setChatData(allDataChat);
         }
       });
-  }, []);
+  }, [dataDoctor.data.uid, user.uid]);
 
   const getDataUserLokal = () => {
     getData('user').then((res) => {
@@ -49,18 +50,33 @@ export default function Chatting({navigation, route}) {
   };
 
   const sendChat = () => {
-    setChatContant('');
+    setChatContent('');
 
     const today = new Date();
     const ChatId = `${user.uid}_${dataDoctor.data.uid}`;
 
     const url = `chatting/${ChatId}/allChat/${setDateChat(today)}`;
 
+    const urlMessageUser = `messages/${user.uid}/${ChatId}`;
+    const urlMessageDoctor = `messages/${dataDoctor.data.uid}/${ChatId}`;
+
+    const dataHistoryChatUser = {
+      lastContentChat: chatContent,
+      lastChatDate: today.getTime(),
+      uidPartner: dataDoctor.data.uid,
+    };
+
+    const dataHistoryChatDoctor = {
+      lastContentChat: chatContent,
+      lastChatDate: today.getTime(),
+      uidPartner: user.uid,
+    };
+
     const data = {
       sendBy: user.uid,
       chatDate: new Date().getTime(),
       chatTime: getChatTime(today),
-      chatContant: chatContant,
+      chatContent: chatContent,
     };
 
     // kirim fire base
@@ -69,7 +85,8 @@ export default function Chatting({navigation, route}) {
       .ref(url)
       .push(data)
       .then((res) => {
-        // success
+        Fire.database().ref(urlMessageUser).set(dataHistoryChatUser);
+        Fire.database().ref(urlMessageDoctor).set(dataHistoryChatDoctor);
       })
       .catch((err) => {
         // err
@@ -93,12 +110,14 @@ export default function Chatting({navigation, route}) {
                 <View key={chat.id}>
                   <Text style={styles.chatdate}>{chat.id}</Text>
                   {chat.data.map((itemChat) => {
+                    const isMe = itemChat.data.sendBy === user.uid;
                     return (
                       <ChatItem
                         key={itemChat.id}
-                        isMe={itemChat.data.sendBy === user.uid}
-                        text={itemChat.data.chatContant}
+                        isMe={isMe}
                         date={itemChat.data.chatTime}
+                        text={itemChat.data.chatContent}
+                        photo={isMe ? null : {uri: dataDoctor.data.photo}}
                       />
                     );
                   })}
@@ -109,8 +128,8 @@ export default function Chatting({navigation, route}) {
         </ScrollView>
       </View>
       <InputChat
-        value={chatContant}
-        onChangeText={(value) => setChatContant(value)}
+        value={chatContent}
+        onChangeText={(value) => setChatContent(value)}
         onPress={sendChat}
         name={dataDoctor.data.fullName}
       />

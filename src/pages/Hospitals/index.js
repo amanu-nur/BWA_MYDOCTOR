@@ -1,22 +1,17 @@
 import React from 'react';
 import {
+  ImageBackground,
+  ScrollView,
   StyleSheet,
   Text,
   View,
-  ScrollView,
-  ImageBackground,
-  Image,
 } from 'react-native';
-import {colors, fonts} from '../../utils';
-import {
-  ILBackgroundHospitals,
-  DumyHospitals1,
-  DumyHospitals2,
-  DumyHospitals3,
-} from '../../assets';
+import {ILBackgroundHospitals} from '../../assets';
 import {ListHospitals} from '../../component';
+import {colors, fonts} from '../../utils';
 
 export default function Message() {
+  const Hospitals = 'https://unsplash.com/photos/pV5arhEZHiA';
   return (
     <View style={styles.container}>
       <ImageBackground source={ILBackgroundHospitals} style={styles.background}>
@@ -29,17 +24,17 @@ export default function Message() {
             <ListHospitals
               name="Citra Bunga Merdeka"
               desc="Jln.Surya Sejahtera 20"
-              image={DumyHospitals1}
+              image={{uri: Hospitals}}
             />
             <ListHospitals
               name="Happy Family & Kids"
               desc="Jln.Surya Sejahtera 20"
-              image={DumyHospitals2}
+              image={{uri: Hospitals}}
             />
             <ListHospitals
               name="Tingkatan Paling Atas"
               desc="Jln.Surya Sejahtera 20"
-              image={DumyHospitals3}
+              image={{uri: Hospitals}}
             />
           </View>
         </ScrollView>

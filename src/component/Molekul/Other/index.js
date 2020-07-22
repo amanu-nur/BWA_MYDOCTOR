@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../../../utils';
 
-export default function Other({text, date, photo}) {
+export default function Other({ text, date, photo }) {
   return (
     <View style={styles.container}>
       <Image source={photo} style={styles.avatar} />
