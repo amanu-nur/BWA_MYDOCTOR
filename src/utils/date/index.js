@@ -7,7 +7,7 @@ export const getChatTime = (date) => {
 
 export const setDateChat = (dateOld) => {
   const year = dateOld.getFullYear();
-  const month = dateOld.getMonth() + 1;
+  const month = dateOld.getMonth() + 1 ;
   const date = dateOld.getDate();
 
   return `${year}-${month}-${date}`;

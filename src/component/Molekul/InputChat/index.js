@@ -1,7 +1,8 @@
 import React from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {colors, fonts} from '../../../utils';
-import {Button} from '../../Atom';
+import { Button } from '../../Atom';
+
 
 export default function InputChat({value, onChangeText, onPress, name}) {
   return (

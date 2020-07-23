@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import {Header, ChatItem, InputChat} from '../../component';
-import {colors, fonts, getData, getChatTime, setDateChat} from '../../utils';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text, View, FlatList} from 'react-native';
+import {ChatItem, Header, InputChat} from '../../component';
 import {Fire} from '../../config';
+import {colors, fonts, getChatTime, getData, setDateChat} from '../../utils';
+
 
 export default function Chatting({navigation, route}) {
   const dataDoctor = route.params;
@@ -11,13 +12,17 @@ export default function Chatting({navigation, route}) {
   const [chatData, setChatData] = useState([]);
 
   useEffect(() => {
+
     getDataUserLokal();
 
     const ChatId = `${user.uid}_${dataDoctor.data.uid}`;
     const url = `chatting/${ChatId}/allChat/`;
 
+    
+
     Fire.database()
       .ref(url)
+      .endAt(30)
       .on('value', (snapshot) => {
         if (snapshot.val()) {
           const dataSnapshot = snapshot.val();
@@ -93,6 +98,8 @@ export default function Chatting({navigation, route}) {
       });
   };
 
+  // const isMe = itemChat.data.sendBy === user.uid;
+
   return (
     <View style={styles.container}>
       <Header
@@ -102,8 +109,36 @@ export default function Chatting({navigation, route}) {
         photo={{uri: dataDoctor.data.photo}}
         onPress={() => navigation.goBack()}
       />
+
       <View style={styles.contant}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <FlatList
+          data={chatData}
+          inverted
+          style={{flex: 1}}
+          keyExtractor={({id}, index) => id}
+          renderItem={({item}) => (
+            <View>
+              <Text style={styles.chatdate}>{item.id}</Text>
+              <FlatList
+                data={item.data}
+                keyExtractor={({id}, index) => id}
+                renderItem={({item}) => (
+                  <ChatItem
+                    isMe={item.data.sendBy === user.uid}
+                    date={item.data.chatTime}
+                    text={`${item.data.chatContent}   `}
+                    photo={
+                      item.data.sendBy === user.uid
+                        ? null
+                        : {uri: dataDoctor.data.photo}
+                    }
+                  />
+                )}
+              />
+            </View>
+          )}
+        />
+        {/* <ScrollView showsVerticalScrollIndicator={false}>
           <View>
             {chatData.map((chat) => {
               return (
@@ -116,7 +151,7 @@ export default function Chatting({navigation, route}) {
                         key={itemChat.id}
                         isMe={isMe}
                         date={itemChat.data.chatTime}
-                        text={itemChat.data.chatContent}
+                        text={`${itemChat.data.chatContent}   `}
                         photo={isMe ? null : {uri: dataDoctor.data.photo}}
                       />
                     );
@@ -125,8 +160,9 @@ export default function Chatting({navigation, route}) {
               );
             })}
           </View>
-        </ScrollView>
+        </ScrollView> */}
       </View>
+
       <InputChat
         value={chatContent}
         onChangeText={(value) => setChatContent(value)}
@@ -144,6 +180,7 @@ const styles = StyleSheet.create({
   },
   contant: {
     flex: 1,
+    backgroundColor: colors.white,
   },
   chatdate: {
     fontSize: 11,
