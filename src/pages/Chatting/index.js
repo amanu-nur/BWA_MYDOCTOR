@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, View, FlatList} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {ChatItem, Header, InputChat} from '../../component';
 import {Fire} from '../../config';
 import {colors, fonts, getChatTime, getData, setDateChat} from '../../utils';
-
 
 export default function Chatting({navigation, route}) {
   const dataDoctor = route.params;
@@ -11,14 +10,15 @@ export default function Chatting({navigation, route}) {
   const [user, setUser] = useState({});
   const [chatData, setChatData] = useState([]);
 
-  useEffect(() => {
+  const dataChat = chatData.reverse();
 
+  // console.log(chatData)
+
+  useEffect(() => {
     getDataUserLokal();
 
     const ChatId = `${user.uid}_${dataDoctor.data.uid}`;
     const url = `chatting/${ChatId}/allChat/`;
-
-    
 
     Fire.database()
       .ref(url)
@@ -112,7 +112,8 @@ export default function Chatting({navigation, route}) {
 
       <View style={styles.contant}>
         <FlatList
-          data={chatData}
+          scrollIndicatorInsets
+          data={dataChat}
           inverted
           style={{flex: 1}}
           keyExtractor={({id}, index) => id}
@@ -138,29 +139,6 @@ export default function Chatting({navigation, route}) {
             </View>
           )}
         />
-        {/* <ScrollView showsVerticalScrollIndicator={false}>
-          <View>
-            {chatData.map((chat) => {
-              return (
-                <View key={chat.id}>
-                  <Text style={styles.chatdate}>{chat.id}</Text>
-                  {chat.data.map((itemChat) => {
-                    const isMe = itemChat.data.sendBy === user.uid;
-                    return (
-                      <ChatItem
-                        key={itemChat.id}
-                        isMe={isMe}
-                        date={itemChat.data.chatTime}
-                        text={`${itemChat.data.chatContent}   `}
-                        photo={isMe ? null : {uri: dataDoctor.data.photo}}
-                      />
-                    );
-                  })}
-                </View>
-              );
-            })}
-          </View>
-        </ScrollView> */}
       </View>
 
       <InputChat
